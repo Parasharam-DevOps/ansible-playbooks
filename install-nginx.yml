@@ -1,0 +1,24 @@
+---
+- hosts: servers
+  become: yes
+  gather_facts: yes
+
+  tasks:
+
+  - name: Install Nginx on Ubuntu servers
+    apt:
+      name: nginx
+      state: present
+    
+  - name: Start Nginx service 
+    service:
+      name: nginx
+      state: started
+
+  - name: Check if Nginx is working
+    command: "curl localhost"
+    register: nginx_status 
+
+  - name: Debug Nginx status
+    debug:
+      var: nginx_status
